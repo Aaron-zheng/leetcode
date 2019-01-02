@@ -29,21 +29,23 @@ import java.util.List;
 */
 
 
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) { val = x; }
-
-    @Override
-    public String toString() {
-        return "ListNode{" +
-                "val=" + val +
-                ", next=" + next +
-                '}';
-    }
-}
 
 public class AddTwoNumbers {
+
+
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) { val = x; }
+
+        @Override
+        public String toString() {
+            return "ListNode{" +
+                    "val=" + val +
+                    ", next=" + next +
+                    '}';
+        }
+    }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode first = null;
@@ -86,13 +88,4 @@ public class AddTwoNumbers {
 
     }
 
-    public static void main(String[] args) {
-        ListNode l1 = new ListNode(0);
-        ListNode l2 = new ListNode(1);
-        ListNode l4 = new ListNode(4);
-        l2.next = l4;
-
-        ListNode l3 = new AddTwoNumbers().addTwoNumbers(l1, l2);
-        System.out.println(l3);
-    }
 }
