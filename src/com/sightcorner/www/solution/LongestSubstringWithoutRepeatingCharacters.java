@@ -1,5 +1,7 @@
 package com.sightcorner.www.solution;
 
+import java.util.*;
+
 /**
  * Created by Aaron Zheng<br>
  * Created at 3/1/2019<br>
@@ -37,8 +39,48 @@ package com.sightcorner.www.solution;
 
 public class LongestSubstringWithoutRepeatingCharacters {
 
+    
+    /**
+     * 做了一个窗口，通过i和j控制窗口的大小。已经比较过不重复的，则可以跳过不用比较
+     *
+     * @param s
+     * @return
+     */
     public int lengthOfLongestSubstring(String s) {
-        return 0;
+        int i = 0;
+        int j = 0;
+        int max = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        while(true) {
+            if(s.length() == 0) {
+                return 0;
+            }
+            if(map.containsKey(s.charAt(j))) {
+                max = Math.max(max, j - i);
+                i = map.get(s.charAt(j)) + 1;
+                remove(map, s.charAt(j));
+            } else {
+                map.put(s.charAt(j), j);
+                j++;
+            }
+            if(i == s.length() || j == s.length()) {
+                break;
+            }
+        }
+        max = Math.max(max, j - i);
+
+        return max;
+    }
+
+    public void remove(Map<Character, Integer> map, Character c) {
+        Integer num = map.get(c);
+        Iterator<Map.Entry<Character, Integer>> iterator = map.entrySet().iterator();
+        while(iterator.hasNext()) {
+            Map.Entry<Character, Integer> entry = iterator.next();
+            if(entry.getValue() <= num) {
+                iterator.remove();
+            }
+        }
     }
 }
 
