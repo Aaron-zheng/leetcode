@@ -39,7 +39,7 @@ import java.util.*;
 
 public class LongestSubstringWithoutRepeatingCharacters {
 
-    
+
     /**
      * 做了一个窗口，通过i和j控制窗口的大小。已经比较过不重复的，则可以跳过不用比较
      *
