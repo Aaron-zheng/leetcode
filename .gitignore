@@ -23,3 +23,7 @@
 hs_err_pid*
 
 .idea/workspace.xml
+.idea/*
+.idea/*.xml
+
+.idea/libraries/Maven__com_alibaba_fastjson_1_2_58.xml
