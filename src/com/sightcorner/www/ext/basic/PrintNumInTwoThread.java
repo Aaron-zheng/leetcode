@@ -4,6 +4,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Aaron Zheng<br>
@@ -24,9 +26,55 @@ public class PrintNumInTwoThread {
      * @param args
      */
     public static void main(String[] args) {
-        test1();
+//        test1();
+//        test2();
     }
 
+    /**
+     * 通过锁状态，限制。然后通过state更新当前线程
+     */
+    public static void test2() {
+        Lock lock = new ReentrantLock();
+        final AtomicInteger state = new AtomicInteger(0);
+        AtomicInteger num = new AtomicInteger(0);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(;;) {
+                    if(num.get() > 100) {
+                        break;
+                    }
+                    lock.lock();
+                    if(state.get() % 2 == 0) {
+                        System.out.println("thread1 " + num.getAndIncrement());
+                        state.getAndIncrement();
+                    }
+                    lock.unlock();
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(;;) {
+                    if(num.get() > 100) {
+                        break;
+                    }
+                    lock.lock();
+                    if(state.get() % 2 == 1) {
+                        System.out.println("thread2 " + num.getAndIncrement());
+                        state.getAndIncrement();
+                    }
+                    lock.unlock();
+                }
+            }
+        }).start();
+    }
+
+
+    /**
+     * 采用2个变量控制，坏处是for循环会消耗cpu
+     */
     public static void test1() {
         AtomicBoolean b1 = new AtomicBoolean(true);
         AtomicBoolean b2 = new AtomicBoolean(false);
