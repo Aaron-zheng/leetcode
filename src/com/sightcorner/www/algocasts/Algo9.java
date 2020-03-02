@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
  */
 public class Algo9 {
 
-    public static class LinkNode {
+    private static class LinkNode {
         int val;
         LinkNode next;
 

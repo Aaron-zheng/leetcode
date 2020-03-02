@@ -14,7 +14,7 @@ import java.util.Stack;
  */
 public class Algo8 {
 
-    public static class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode right;
         TreeNode left;

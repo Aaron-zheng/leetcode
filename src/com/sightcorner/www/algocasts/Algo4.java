@@ -13,7 +13,7 @@ package com.sightcorner.www.algocasts;
  */
 public class Algo4 {
 
-    public static class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode right;
         TreeNode left;

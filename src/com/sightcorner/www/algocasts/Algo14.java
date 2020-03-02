@@ -14,7 +14,7 @@ import java.util.Stack;
  */
 public class Algo14 {
 
-    public static class LinkNode {
+    private static class LinkNode {
         int val;
         LinkNode next;
 
