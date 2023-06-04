@@ -50,7 +50,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution1 {
     public int[] twoSum(int[] nums, int target) {
         // 时间复杂度为O(N)
         // 空间复杂度为O(N)

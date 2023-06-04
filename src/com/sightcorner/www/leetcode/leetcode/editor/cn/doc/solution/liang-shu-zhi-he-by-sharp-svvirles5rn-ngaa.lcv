@@ -1,0 +1,62 @@
+### 解题思路
+
+因为数学里不大于10的数相加不会大于20
+另外从其他位进过来的1，再加上9+9为19，也不会大于20
+所以可知任一位相加都不会大于20
+所以可以先不管加起来大不大于10，就让他显示十几即可
+然后再来一个函数遍历这个链表，如果这个链表这个节点大于等于10，那么减去10
+下一个节点的值加1，唯独要考虑最后一个节点还大于等于10的话开创一个新节点，值为1，next为null
+
+### 代码
+
+* java
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    if(l1==null){
+        return l2;
+    }if(l2==null){
+        return l1;
+    }
+//  一个存储结果，一个去遍历
+    ListNode res=new ListNode(-1);
+    ListNode point=new ListNode(l1.val+l2.val);
+    
+    res.next=point;
+  //  参考两个二叉树合并的思想让point的next指向新的和的节点
+    point.next=addTwoNumbers(l1.next,l2.next);
+   return update(res.next);
+    
+    }
+    private ListNode update(ListNode obj){
+    ListNode res=new  ListNode(-1,obj);
+     while(obj.next!=null){
+         if(obj.val>=10){
+             obj.val-=10;
+             obj.next.val+=1;
+         }
+         obj=obj.next;
+     }
+//  如果遍历完整个链表，发现最后一个节点是大于10的
+// 那么旧节点-10，开创一个新的节点，这个节点的值是1，next是null
+     if(obj.val>=10){
+         obj.val-=10;
+         obj.next=new ListNode(1,null);
+     }
+     return res.next;
+
+    }
+}
+```
+
