@@ -1,0 +1,84 @@
+法一、滑动窗口+哈希集合存储
+
+* 
+
+```
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+        int len = s.length();
+        int r = -1;
+        int ans = 0;
+        for(int i = 0; i < len; ++i){
+            if(i != 0){
+                set.remove(s.charAt(i - 1));
+            }
+            
+            while(r + 1 < len && !set.contains(s.charAt(r + 1))){
+                set.add(s.charAt(r + 1));
+                ++r;
+            }
+            ans = Math.max(ans, r - i + 1);
+        }
+        return ans;
+
+    }
+}
+```
+
+法二、滑动窗口+哈希表
+
+* 
+
+```
+	class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int ans = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int end = 0, start = 0; end < n; end++) {
+            char alpha = s.charAt(end);
+            if (map.containsKey(alpha)) {
+// 这段代码的目的是规避哈希表charAt（）查询到滑动窗口左边的重复字符，因为本方法hashmap并没有把滑动窗口外的元素删除。例如，在"tmmzuxt"这个字符串中，遍历到最后一步时，最后一个字符't'和第一个字符't'是相等的。 如果没有max函数锁定住滑动窗口的左边界，start就会弹回去第一个't'的索引0处，最后输出的最长无重复子串会变成"mmzuxt"。
+                start = Math.max(map.get(alpha) + 1, start);
+            }
+            map.put(s.charAt(end), end);
+            ans = Math.max(ans, end - start + 1);
+        }
+        return ans;
+    }
+}
+```
+
+对法二start = Math.max(map.get(alpha) + 1, start);语句的修改
+
+* 
+
+```
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int ans = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int end = 0, start = 0; end < n; end++) {
+            char alpha = s.charAt(end);
+            if (map.containsKey(alpha)) {
+					     // 记录上一次start的位置
+                int temp = start;
+								// start跳转后的位置
+                start = map.get(alpha) + 1;
+// 下面这个for的目的是删除从temp位置到新的start位置之间的map键值对
+// 因为我们根据法二start = Math.max(map.get(alpha) + 1, start);语句的注释可以知道，加max的目的是锁住滑动窗口左边界，防止map.get(alpha)跳转到滑动窗口左边的重复元素。所以一不做二不休，每次start跳转后，删除跳转位置之前的所有map元素，就可以避免这个问题
+                for(int i = temp; i < start; ++i){
+                    map.remove(s.charAt(i));
+                }
+            }
+            map.put(s.charAt(end), end);
+            ans = Math.max(ans, end - start + 1);
+        }
+        return ans;
+    }
+}
+
+```
+
